@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios Matemáticos para Niños</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f0f8ff;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+        .contenedor-botones {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        button {
+            padding: 15px 25px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            color: white;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+        #btnSuma { background-color: #27ae60; }
+        #btnResta { background-color: #3498db; }
+        #btnMultiplicacion { background-color: #f39c12; }
+        #btnDivision { background-color: #e74c3c; }
+
+        .contenedor-ejercicios {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: none;
+        }
+        .ejercicio {
+            font-size: 1.5em;
+            margin: 15px 0;
+            color: #2c3e50;
+        }
+        .respuesta {
+            font-size: 1.3em;
+            color: #27ae60;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .controles {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn-voz {
+            background-color: #9b59b6;
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+        .btn-volver {
+            background-color: #7f8c8d;
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎈 Practiquemos Matemáticas 🎈</h1>
+
+    <div class="contenedor-botones" id="menuPrincipal">
+        <button id="btnSuma">➕ Sumas</button>
+        <button id="btnResta">➖ Restas</button>
+        <button id="btnMultiplicacion">✖️ Multiplicaciones</button>
+        <button id="btnDivision">➗ Divisiones</button>
+    </div>
+
+    <div class="contenedor-ejercicios" id="areaEjercicios">
+        <h2 id="tituloOperacion"></h2>
+        <div id="listaEjercicios"></div>
+        <div class="controles">
+            <button class="btn-voz" id="btnLeerTodo">🔊 Leer todos los ejercicios</button>
+            <button class="btn-volver" id="btnVolver">🔙 Volver al menú</button>
+        </div>
+    </div>
+
+    <script>
+        // Datos de ejercicios adaptados para niños de 7 años
+        const ejercicios = {
+            suma: [
+                {p: "2 más 3 es igual a", r: 5}, {p: "4 más 5 es igual a", r: 9},
+                {p: "1 más 6 es igual a", r: 7}, {p: "3 más 4 es igual a", r: 7},
+                {p: "5 más 5 es igual a", r: 10}, {p: "6 más 2 es igual a", r: 8},
+                {p: "7 más 1 es igual a", r: 8}, {p: "2 más 8 es igual a", r: 10},
+                {p: "3 más 6 es igual a", r: 9}, {p: "4 más 4 es igual a", r: 8},
+                {p: "1 más 9 es igual a", r: 10}, {p: "5 más 3 es igual a", r: 8},
+                {p: "6 más 4 es igual a", r: 10}, {p: "7 más 2 es igual a", r: 9},
+                {p: "8 más 1 es igual a", r: 9}, {p: "2 más 2 es igual a", r: 4},
+                {p: "3 más 3 es igual a", r: 6}, {p: "4 más 2 es igual a", r: 6},
+                {p: "5 más 1 es igual a", r: 6}, {p: "1 más 1 es igual a", r: 2},
+                {p: "9 más 0 es igual a", r: 9}, {p: "0 más 5 es igual a", r: 5},
+                {p: "3 más 7 es igual a", r: 10}, {p: "6 más 3 es igual a", r: 9},
+                {p: "2 más 5 es igual a", r: 7}, {p: "1 más 4 es igual a", r: 5},
+                {p: "7 más 3 es igual a", r: 10}, {p: "8 más 2 es igual a", r: 10},
+                {p: "4 más 6 es igual a", r: 10}, {p: "5 más 4 es igual a", r: 9}
+            ],
+            resta: [
+                {p: "5 menos 2 es igual a", r: 3}, {p: "9 menos 4 es igual a", r: 5},
+                {p: "7 menos 1 es igual a", r: 6}, {p: "8 menos 3 es igual a", r: 5},
+                {p: "10 menos 5 es igual a", r: 5}, {p: "6 menos 2 es igual a", r: 4},
+                {p: "8 menos 7 es igual a", r: 1}, {p: "10 menos 8 es igual a", r: 2},
+                {p: "9 menos 3 es igual a", r: 6}, {p: "8 menos 4 es igual a", r: 4},
+                {p: "10 menos 9 es igual a", r: 1}, {p: "8 menos 5 es igual a", r: 3},
+                {p: "10 menos 4 es igual a", r: 6}, {p: "9 menos 2 es igual a", r: 7},
+                {p: "9 menos 1 es igual a", r: 8}, {p: "4 menos 2 es igual a", r: 2},
+                {p: "6 menos 3 es igual a", r: 3}, {p: "6 menos 4 es igual a", r: 2},
+                {p: "6 menos 1 es igual a", r: 5}, {p: "2 menos 1 es igual a", r: 1},
+                {p: "9 menos 0 es igual a", r: 9}, {p: "5 menos 0 es igual a", r: 5},
+                {p: "10 menos 7 es igual a", r: 3}, {p: "9 menos 6 es igual a", r: 3},
+                {p: "7 menos 5 es igual a", r: 2}, {p: "5 menos 4 es igual a", r: 1},
+                {p: "10 menos 3 es igual a", r: 7}, {p: "10 menos 2 es igual a", r: 8},
+                {p: "10 menos 6 es igual a", r: 4}, {p: "9 menos 5 es igual a", r: 4}
+            ],
+            multiplicacion: [
+                {p: "2 por 1 es igual a", r: 2}, {p: "2 por 2 es igual a", r: 4},
+                {p: "2 por 3 es igual a", r: 6}, {p: "2 por 4 es igual a", r: 8},
+                {p: "2 por 5 es igual a", r: 10}, {p: "3 por 1 es igual a", r: 3},
+                {p: "3 por 2 es igual a", r: 6}, {p: "3 por 3 es igual a", r: 9},
+                {p: "3 por 0 es igual a", r: 0}, {p: "4 por 1 es igual a", r: 4},
+                {p: "4 por 2 es igual a", r: 8}, {p: "5 por 1 es igual a", r: 5},
+                {p: "5 por 2 es igual a", r: 10}, {p: "1 por 1 es igual a", r: 1},
+                {p: "1 por 5 es igual a", r: 5}, {p: "2 por 0 es igual a", r: 0},
+                {p: "3 por 4 es igual a", r: 12}, {p: "4 por 3 es igual a", r: 12},
+                {p: "5 por 3 es igual a", r: 15}, {p: "5 por 4 es igual a", r: 20},
+                {p: "1 por 0 es igual a", r: 0}, {p: "0 por cualquier número es igual a", r: 0},
+                {p: "2 por 6 es igual a", r: 12}, {p: "3 por 5 es igual a", r: 15},
+                {p: "4 por 4 es igual a", r: 16}, {p: "5 por 5 es igual a", r: 25},
+                {p: "1 por 6 es igual a", r: 6}, {p: "2 por 7 es igual a", r: 14},
+                {p: "3 por 6 es igual a", r: 18}, {p: "4 por 5 es igual a", r: 20}
+            ],
+            division: [
+                {p: "2 dividido entre 1 es igual a", r: 2}, {p: "4 dividido entre 2 es igual a", r: 2},
+                {p: "6 dividido entre 2 es igual a", r: 3}, {p: "8 dividido entre 2 es igual a", r: 4},
+                {p: "10 dividido entre 2 es igual a", r: 5}, {p: "3 dividido entre 1 es igual a", r: 3},
+                {p: "6 dividido entre 3 es igual a", r: 2}, {p: "9 dividido entre 3 es igual a", r: 3},
+                {p: "4 dividido entre 1 es igual a", r: 4}, {p: "8 dividido entre 4 es igual a", r: 2},
+                {p: "5 dividido entre 1 es igual a", r: 5}, {p: "10 dividido entre 5 es igual a", r: 2},
+                {p: "12 dividido entre 3 es igual a", r: 4}, {p: "12 dividido entre 4 es igual a", r: 3},
+                {p: "15 dividido entre 5 es igual a", r: 3}, {p: "20 dividido entre 5 es igual a", r: 4},
+                {p: "0 dividido entre cualquier número es igual a", r: 0}, {p: "1 dividido entre 1 es igual a", r: 1},
+                {p: "12 dividido entre 2 es igual a", r: 6}, {p: "15 dividido entre 3 es igual a", r: 5},
+                {p: "16 dividido entre 4 es igual a", r: 4}, {p: "25 dividido entre 5 es igual a", r: 5},
+                {p: "14 dividido entre 2 es igual a", r: 7}, {p: "18 dividido entre 3 es igual a", r: 6},
+                {p: "20 dividido entre 4 es igual a", r: 5}, {p: "7 dividido entre 1 es igual a", r: 7},
+                {p: "8 dividido entre 1 es igual a", r: 8}, {p: "9 dividido entre 1 es igual a", r: 9},
+                {p: "10 dividido entre 1 es igual a", r: 10}, {p: "6 dividido entre 1 es igual a", r: 6}
+            ]
+        };
+
+        // Elementos del DOM
+        const btnSuma = document.getElementById('btnSuma');
+        const btnResta = document.getElementById('btnResta');
+        const btnMultiplicacion = document.getElementById('btnMultiplicacion');
+        const btnDivision = document.getElementById('btnDivision');
+        const menuPrincipal = document.getElementById('menuPrincipal');
+        const areaEjercicios = document.getElementById('areaEjercicios');
+        const tituloOperacion = document.getElementById('tituloOperacion');
+        const listaEjercicios = document.getElementById('listaEjercicios');
+        const btnLeerTodo = document.getElementById('btnLeerTodo');
+        const btnVolver = document.getElementById('btnVolver');
+
+        // Función para mostrar ejercicios
+        function mostrarEjercicios(tipo, titulo) {
+            menuPrincipal.style.display = 'none';
+            areaEjercicios.style.display = 'block';
+            tituloOperacion.textContent = titulo;
+            listaEjercicios.innerHTML = '';
+
+            ejercicios[tipo].forEach((ej, indice) => {
+                const div = document.createElement('div');
+                div.className = 'ejercicio';
+                div.innerHTML = `${indice+1}. ${ej.p} <strong>${ej.r}</strong>`;
+                listaEjercicios.appendChild(div);
+            });
+        }
+
+        // Función para leer en voz alta
+        function leerEjercicios(tipo) {
+            window.speechSynthesis.cancel();
+            let textoCompleto = `Ejercicios de ${tipo}. `;
+            ejercicios[tipo].forEach(ej => {
+                textoCompleto += `${ej.p} ${ej.r}. `;
+            });
+            const voz = new SpeechSynthesisUtterance(textoCompleto);
+            voz.lang = 'es-ES';
+            voz.rate = 0.9; // Velocidad adecuada para niños
+            window.speechSynthesis.speak(voz);
+        }
+
+        // Eventos de botones
+        btnSuma.addEventListener('click', () => mostrarEjercicios('suma', '➕ Ejercicios de Suma'));
+        btnResta.addEventListener('click', () => mostrarEjercicios('resta', '➖ Ejercicios de Resta'));
+        btnMultiplicacion.addEventListener('click', () => mostrarEjercicios('multiplicacion', '✖️ Ejercicios de Multiplicación'));
+        btnDivision.addEventListener('click', () => mostrarEjercicios('division', '➗ Ejercicios de División'));
+
+        btnLeerTodo.addEventListener('click', () => {
+            if(tituloOperacion.textContent.includes('Suma')) leerEjercicios('suma');
+            if(tituloOperacion.textContent.includes('Resta')) leerEjercicios('resta');
+            if(tituloOperacion.textContent.includes('Multiplicación')) leerEjercicios('multiplicacion');
+            if(tituloOperacion.textContent.includes('División')) leerEjercicios('division');
+        });
+
+        btnVolver.addEventListener('click', () => {
+            areaEjercicios.style.display = 'none';
+            menuPrincipal.style.display = 'flex';
+            window.speechSynthesis.cancel();
+        });
+    </script>
+</body>
+</html>
