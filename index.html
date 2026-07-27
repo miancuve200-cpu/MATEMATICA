@@ -3,238 +3,271 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ejercicios Matemáticos para Niños</title>
+    <title>Matemáticas - Niños de 5 años</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-        body {
-            background-color: #f0f8ff;
-            padding: 20px;
-            text-align: center;
-        }
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 30px;
-            font-size: 2em;
-        }
-        .contenedor-botones {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-        button {
-            padding: 15px 25px;
-            font-size: 1.2em;
-            font-weight: bold;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            color: white;
-            transition: transform 0.2s;
-        }
-        button:hover {
-            transform: scale(1.05);
-        }
-        #btnSuma { background-color: #27ae60; }
-        #btnResta { background-color: #3498db; }
-        #btnMultiplicacion { background-color: #f39c12; }
-        #btnDivision { background-color: #e74c3c; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background-color: #e3f2fd; padding: 20px; text-align: center; }
+        h1 { color: #1565c0; margin-bottom: 30px; font-size: 2em; }
+        .contenedor-botones { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-bottom: 30px; }
+        button { padding: 15px 20px; font-size: 1.1em; font-weight: bold; border: none; border-radius: 12px; cursor: pointer; color: white; transition: transform 0.2s; }
+        button:hover { transform: scale(1.05); }
+        #btnNumeros { background-color: #2196f3; }
+        #btnOperaciones { background-color: #42a5f5; }
+        #btnFormas { background-color: #64b5f6; }
+        #btnMedidas { background-color: #90caf9; color: #1a237e; }
 
-        .contenedor-ejercicios {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            display: none;
-        }
-        .ejercicio {
-            font-size: 1.5em;
-            margin: 15px 0;
-            color: #2c3e50;
-        }
-        .respuesta {
-            font-size: 1.3em;
-            color: #27ae60;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        .controles {
-            margin-top: 20px;
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .btn-voz {
-            background-color: #9b59b6;
-            padding: 10px 20px;
-            font-size: 1em;
-        }
-        .btn-volver {
-            background-color: #7f8c8d;
-            padding: 10px 20px;
-            font-size: 1em;
-        }
+        .contenedor-act { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: none; }
+        .progreso { font-size: 1.1em; color: #1976d2; margin-bottom: 15px; }
+        .pregunta { font-size: 1.7em; margin: 20px 0; color: #263238; font-weight: bold; }
+        .opciones { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 15px 0; }
+        .opcion { background-color: #e1f5fe; color: #263238; padding: 12px 25px; font-size: 1.5em; border-radius: 10px; border: 2px solid #42a5f5; }
+        .opcion:hover { background-color: #b3e5fc; }
+        .mensaje { font-size: 1.3em; margin: 10px 0; font-weight: bold; }
+        .correcto { color: #388e3c; }
+        .incorrecto { color: #d32f2f; }
+        .controles { margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .btn-voz { background-color: #ab47bc; }
+        .btn-sig { background-color: #2196f3; display: none; }
+        .btn-volver { background-color: #78909c; }
     </style>
 </head>
 <body>
-    <h1>🎈 Practiquemos Matemáticas 🎈</h1>
+    <h1>🔢 Matemáticas Divertidas 🔢</h1>
 
-    <div class="contenedor-botones" id="menuPrincipal">
-        <button id="btnSuma">➕ Sumas</button>
-        <button id="btnResta">➖ Restas</button>
-        <button id="btnMultiplicacion">✖️ Multiplicaciones</button>
-        <button id="btnDivision">➗ Divisiones</button>
+    <div class="contenedor-botones" id="menu">
+        <button id="btnNumeros">🔢 Números hasta el 10</button>
+        <button id="btnOperaciones">➕ Sumar y Restar</button>
+        <button id="btnFormas">🔷 Formas y Figuras</button>
+        <button id="btnMedidas">⚖️ Comparar y Medir</button>
     </div>
 
-    <div class="contenedor-ejercicios" id="areaEjercicios">
-        <h2 id="tituloOperacion"></h2>
-        <div id="listaEjercicios"></div>
+    <div class="contenedor-act" id="areaAct">
+        <h2 id="tituloAct"></h2>
+        <div class="progreso" id="progreso"></div>
+        <div class="pregunta" id="pregunta"></div>
+        <div class="opciones" id="opciones"></div>
+        <div class="mensaje" id="mensaje"></div>
         <div class="controles">
-            <button class="btn-voz" id="btnLeerTodo">🔊 Leer todos los ejercicios</button>
-            <button class="btn-volver" id="btnVolver">🔙 Volver al menú</button>
+            <button class="btn-voz" id="btnLeer">🔊 Escuchar</button>
+            <button class="btn-sig" id="btnSig">➡️ Siguiente</button>
+            <button class="btn-volver" id="btnVolver">🔙 Volver</button>
         </div>
     </div>
 
     <script>
-        // Datos de ejercicios adaptados para niños de 7 años
-        const ejercicios = {
-            suma: [
-                {p: "2 más 3 es igual a", r: 5}, {p: "4 más 5 es igual a", r: 9},
-                {p: "1 más 6 es igual a", r: 7}, {p: "3 más 4 es igual a", r: 7},
-                {p: "5 más 5 es igual a", r: 10}, {p: "6 más 2 es igual a", r: 8},
-                {p: "7 más 1 es igual a", r: 8}, {p: "2 más 8 es igual a", r: 10},
-                {p: "3 más 6 es igual a", r: 9}, {p: "4 más 4 es igual a", r: 8},
-                {p: "1 más 9 es igual a", r: 10}, {p: "5 más 3 es igual a", r: 8},
-                {p: "6 más 4 es igual a", r: 10}, {p: "7 más 2 es igual a", r: 9},
-                {p: "8 más 1 es igual a", r: 9}, {p: "2 más 2 es igual a", r: 4},
-                {p: "3 más 3 es igual a", r: 6}, {p: "4 más 2 es igual a", r: 6},
-                {p: "5 más 1 es igual a", r: 6}, {p: "1 más 1 es igual a", r: 2},
-                {p: "9 más 0 es igual a", r: 9}, {p: "0 más 5 es igual a", r: 5},
-                {p: "3 más 7 es igual a", r: 10}, {p: "6 más 3 es igual a", r: 9},
-                {p: "2 más 5 es igual a", r: 7}, {p: "1 más 4 es igual a", r: 5},
-                {p: "7 más 3 es igual a", r: 10}, {p: "8 más 2 es igual a", r: 10},
-                {p: "4 más 6 es igual a", r: 10}, {p: "5 más 4 es igual a", r: 9}
+        const actividades = {
+            numeros: [
+                {p: "¿Cuánto es uno?", ops: ["1", "2", "3"], r: "1"},
+                {p: "¿Cuánto es dos?", ops: ["2", "1", "4"], r: "2"},
+                {p: "¿Cuánto es tres?", ops: ["3", "2", "5"], r: "3"},
+                {p: "¿Cuánto es cuatro?", ops: ["4", "3", "6"], r: "4"},
+                {p: "¿Cuánto es cinco?", ops: ["5", "4", "7"], r: "5"},
+                {p: "¿Qué número va después del 5?", ops: ["6", "4", "3"], r: "6"},
+                {p: "¿Qué número va antes del 3?", ops: ["2", "4", "1"], r: "2"},
+                {p: "¿Cuántos dedos tienes en una mano?", ops: ["5", "10", "4"], r: "5"},
+                {p: "¿Cuántos ojos tienes?", ops: ["2", "1", "3"], r: "2"},
+                {p: "¿Cuántas orejas tienes?", ops: ["2", "1", "4"], r: "2"},
+                {p: "¿El número 10 se escribe...?", ops: ["10", "1", "0"], r: "10"},
+                {p: "¿Cuántas patas tiene un perro?", ops: ["4", "2", "6"], r: "4"},
+                {p: "¿Cuántas ruedas tiene un coche?", ops: ["4", "2", "3"], r: "4"},
+                {p: "¿Cuántas patas tiene una gallina?", ops: ["2", "4", "6"], r: "2"},
+                {p: "¿Contamos: 1, 2, 3 y...?", ops: ["4", "1", "0"], r: "4"},
+                {p: "¿Contamos al revés: 5, 4 y...?", ops: ["3", "6", "2"], r: "3"},
+                {p: "¿Qué número es mayor: 3 o 5?", ops: ["5", "3", "iguales"], r: "5"},
+                {p: "¿Qué número es menor: 2 o 4?", ops: ["2", "4", "iguales"], r: "2"},
+                {p: "¿Cuántas manzanas ves: 🍎🍎🍎?", ops: ["3", "2", "4"], r: "3"},
+                {p: "¿Cuántas pelotas ves: ⚽⚽⚽⚽⚽?", ops: ["5", "3", "6"], r: "5"},
+                {p: "¿El número que no tiene nada es...?", ops: ["0", "1", "10"], r: "0"},
+                {p: "¿Después del 9 viene el...?", ops: ["10", "8", "11"], r: "10"},
+                {p: "¿Antes del 10 va el...?", ops: ["9", "8", "7"], r: "9"},
+                {p: "¿Cuántos lápices hay: ✏️✏️✏️✏️?", ops: ["4", "3", "5"], r: "4"},
+                {p: "¿Los números sirven para...?", ops: ["contar", "comer", "dormir"], r: "contar"},
+                {p: "¿Cuántos sentidos tenemos?", ops: ["5", "3", "10"], r: "5"},
+                {p: "¿El número 7 se dice...?", ops: ["siete", "seis", "ocho"], r: "siete"},
+                {p: "¿El número 8 se dice...?", ops: ["ocho", "siete", "nueve"], r: "ocho"},
+                {p: "¿El número 9 se dice...?", ops: ["nueve", "ocho", "diez"], r: "nueve"},
+                {p: "¿Contar es muy...?", ops: ["divertido", "aburrido", "difícil"], r: "divertido"}
             ],
-            resta: [
-                {p: "5 menos 2 es igual a", r: 3}, {p: "9 menos 4 es igual a", r: 5},
-                {p: "7 menos 1 es igual a", r: 6}, {p: "8 menos 3 es igual a", r: 5},
-                {p: "10 menos 5 es igual a", r: 5}, {p: "6 menos 2 es igual a", r: 4},
-                {p: "8 menos 7 es igual a", r: 1}, {p: "10 menos 8 es igual a", r: 2},
-                {p: "9 menos 3 es igual a", r: 6}, {p: "8 menos 4 es igual a", r: 4},
-                {p: "10 menos 9 es igual a", r: 1}, {p: "8 menos 5 es igual a", r: 3},
-                {p: "10 menos 4 es igual a", r: 6}, {p: "9 menos 2 es igual a", r: 7},
-                {p: "9 menos 1 es igual a", r: 8}, {p: "4 menos 2 es igual a", r: 2},
-                {p: "6 menos 3 es igual a", r: 3}, {p: "6 menos 4 es igual a", r: 2},
-                {p: "6 menos 1 es igual a", r: 5}, {p: "2 menos 1 es igual a", r: 1},
-                {p: "9 menos 0 es igual a", r: 9}, {p: "5 menos 0 es igual a", r: 5},
-                {p: "10 menos 7 es igual a", r: 3}, {p: "9 menos 6 es igual a", r: 3},
-                {p: "7 menos 5 es igual a", r: 2}, {p: "5 menos 4 es igual a", r: 1},
-                {p: "10 menos 3 es igual a", r: 7}, {p: "10 menos 2 es igual a", r: 8},
-                {p: "10 menos 6 es igual a", r: 4}, {p: "9 menos 5 es igual a", r: 4}
+            operaciones: [
+                {p: "1 más 1 son...", ops: ["2", "1", "3"], r: "2"},
+                {p: "2 más 1 son...", ops: ["3", "2", "4"], r: "3"},
+                {p: "2 más 2 son...", ops: ["4", "3", "5"], r: "4"},
+                {p: "3 más 1 son...", ops: ["4", "2", "5"], r: "4"},
+                {p: "3 más 2 son...", ops: ["5", "4", "6"], r: "5"},
+                {p: "4 más 1 son...", ops: ["5", "3", "6"], r: "5"},
+                {p: "Si tienes 🍎 y te dan otra 🍎, tienes...", ops: ["2", "1", "3"], r: "2"},
+                {p: "Si tienes 🍎🍎 y te dan una más, tienes...", ops: ["3", "2", "4"], r: "3"},
+                {p: "Si tienes 🍎🍎🍎 y te dan dos más, tienes...", ops: ["5", "4", "3"], r: "5"},
+                {p: "Sumar es juntar y tener...", ops: ["más", "menos", "igual"], r: "más"},
+                {p: "2 menos 1 son...", ops: ["1", "2", "3"], r: "1"},
+                {p: "3 menos 1 son...", ops: ["2", "3", "4"], r: "2"},
+                {p: "3 menos 2 son...", ops: ["1", "2", "3"], r: "1"},
+                {p: "4 menos 2 son...", ops: ["2", "3", "5"], r: "2"},
+                {p: "5 menos 3 son...", ops: ["2", "3", "4"], r: "2"},
+                {p: "Si tienes 🍎🍎 y te comes una, quedan...", ops: ["1", "2", "3"], r: "1"},
+                {p: "Si tienes 🍎🍎🍎 y te comes dos, quedan...", ops: ["1", "2", "3"], r: "1"},
+                {p: "Si tienes 🍎🍎🍎🍎 y te comes una, quedan...", ops: ["3", "4", "5"], r: "3"},
+                {p: "Restar es quitar y tener...", ops: ["menos", "más", "igual"], r: "menos"},
+                {p: "1 y 1 juntitos son...", ops: ["2", "1", "3"], r: "2"},
+                {p: "Dos manzanas más dos manzanas son...", ops: ["4", "3", "5"], r: "4"},
+                {p: "Cinco menos uno son...", ops: ["4", "3", "6"], r: "4"},
+                {p: "Cero más cualquier número es...", ops: ["el mismo número", "cero", "diez"], r: "el mismo número"},
+                {p: "¿Si sumas aumentas o disminuyes?", ops: ["aumentas", "disminuyes", "nada"], r: "aumentas"},
+                {p: "¿Si restas aumentas o disminuyes?", ops: ["disminuyes", "aumentas", "nada"], r: "disminuyes"},
+                {p: "¿4 más 4 son...?", ops: ["8", "7", "9"], r: "8"},
+                {p: "¿5 más 5 son...?", ops: ["10", "9", "8"], r: "10"},
+                {p: "¿10 menos 5 son...?", ops: ["5", "6", "4"], r: "5"},
+                {p: "¿Las matemáticas sirven para...?", ops: ["contar y calcular", "solo jugar", "solo leer"], r: "contar y calcular"},
+                {p: "¿Te gusta sumar y restar?", ops: ["sí mucho", "no", "a veces"], r: "sí mucho"}
             ],
-            multiplicacion: [
-                {p: "2 por 1 es igual a", r: 2}, {p: "2 por 2 es igual a", r: 4},
-                {p: "2 por 3 es igual a", r: 6}, {p: "2 por 4 es igual a", r: 8},
-                {p: "2 por 5 es igual a", r: 10}, {p: "3 por 1 es igual a", r: 3},
-                {p: "3 por 2 es igual a", r: 6}, {p: "3 por 3 es igual a", r: 9},
-                {p: "3 por 0 es igual a", r: 0}, {p: "4 por 1 es igual a", r: 4},
-                {p: "4 por 2 es igual a", r: 8}, {p: "5 por 1 es igual a", r: 5},
-                {p: "5 por 2 es igual a", r: 10}, {p: "1 por 1 es igual a", r: 1},
-                {p: "1 por 5 es igual a", r: 5}, {p: "2 por 0 es igual a", r: 0},
-                {p: "3 por 4 es igual a", r: 12}, {p: "4 por 3 es igual a", r: 12},
-                {p: "5 por 3 es igual a", r: 15}, {p: "5 por 4 es igual a", r: 20},
-                {p: "1 por 0 es igual a", r: 0}, {p: "0 por cualquier número es igual a", r: 0},
-                {p: "2 por 6 es igual a", r: 12}, {p: "3 por 5 es igual a", r: 15},
-                {p: "4 por 4 es igual a", r: 16}, {p: "5 por 5 es igual a", r: 25},
-                {p: "1 por 6 es igual a", r: 6}, {p: "2 por 7 es igual a", r: 14},
-                {p: "3 por 6 es igual a", r: 18}, {p: "4 por 5 es igual a", r: 20}
+            formas: [
+                {p: "¿Qué forma es redonda como una pelota?", ops: ["círculo", "cuadrado", "triángulo"], r: "círculo"},
+                {p: "¿Qué forma tiene tres lados?", ops: ["triángulo", "cuadrado", "círculo"], r: "triángulo"},
+                {p: "¿Qué forma tiene cuatro lados iguales?", ops: ["cuadrado", "triángulo", "rectángulo"], r: "cuadrado"},
+                {p: "¿Una puerta suele ser...?", ops: ["rectángulo", "círculo", "triángulo"], r: "rectángulo"},
+                {p: "¿Una señal de tránsito de peligro es...?", ops: ["triángulo", "cuadrado", "redonda"], r: "triángulo"},
+                {p: "¿Una moneda es...?", ops: ["círculo", "cuadrada", "triangular"], r: "círculo"},
+                {p: "¿Una caja de juguetes suele ser...?", ops: ["cuadrada o rectangular", "redonda", "triangular"], r: "cuadrada o rectangular"},
+                {p: "¿El sol lo dibujamos como un...?", ops: ["círculo con rayos", "cuadrado", "triángulo"], r: "círculo con rayos"},
+                {p: "¿Una casa sencilla tiene paredes de... y techo de...?", ops: ["cuadrado y triángulo", "círculo y cuadrado", "triángulo y círculo"], r: "cuadrado y triángulo"},
+                {p: "¿El círculo tiene esquinas?", ops: ["no", "sí", "tres"], r: "no"},
+                {p: "¿El cuadrado tiene... esquinas?", ops: ["cuatro", "tres", "cinco"], r: "cuatro"},
+                {p: "¿El triángulo tiene... esquinas?", ops: ["tres", "cuatro", "dos"], r: "tres"},
+                {p: "¿Podemos encontrar formas en...?", ops: ["todas partes", "solo libros", "solo juguetes"], r: "todas partes"},
+                {p: "¿Una estrella tiene puntas y...?", ops: ["lados", "círculos", "cuadrados"], r: "lados"},
+                {p: "¿Una pelota es redonda y un dado es...?", ops: ["cuadrado", "redondo", "triangular"], r: "cuadrado"},
+                {p: "¿El rectángulo tiene lados...?", ops: ["dos largos y dos cortos", "todos iguales", "tres iguales"], r: "dos largos y dos cortos"},
+                {p: "¿Podemos dibujar formas grandes y...?", ops: ["pequeñas", "redondas", "cuadradas"], r: "pequeñas"},
+                {p: "¿Las formas tienen nombre y...?", ops: ["características", "color fijo", "tamaño fijo"], r: "características"},
+                {p: "¿Un rompecabezas tiene piezas con...?", ops: ["formas distintas", "solo cuadrados", "solo círculos"], r: "formas distintas"},
+                {p: "¿Podemos juntar formas para hacer...?", ops: ["dibujos", "solo líneas", "solo puntos"], r: "dibujos"},
+                {p: "¿La rueda de la bicicleta es...?", ops: ["círculo", "cuadrada", "triangular"], r: "círculo"},
+                {p: "¿Un semáforo tiene forma...?", ops: ["rectangular", "redonda", "triangular"], r: "rectangular"},
+                {p: "¿Las formas planas están sobre una...?", ops: ["superficie plana", "esfera", "línea"], r: "superficie plana"},
+                {p: "¿Todas las formas son...?", ops: ["especiales", "iguales", "feas"], r: "especiales"},
+                {p: "¿Podemos tocar y sentir las formas...?", ops: ["sí", "no", "solo mirar"], r: "sí"},
+                {p: "¿Qué forma usas para dibujar el sol?", ops: ["círculo", "cuadrado", "triángulo"], r: "círculo"},
+                {p: "¿Qué forma usas para dibujar una montaña?", ops: ["triángulo", "círculo", "cuadrado"], r: "triángulo"},
+                {p: "¿Las formas nos ayudan a...?", ops: ["describir lo que vemos", "contar solo", "sumar solo"], r: "describir lo que vemos"},
+                {p: "¿Jugar con formas es muy...?", ops: ["divertido", "aburrido", "difícil"], r: "divertido"},
+                {p: "¿Tú puedes crear tus propias...?", ops: ["figuras", "números", "colores"], r: "figuras"}
             ],
-            division: [
-                {p: "2 dividido entre 1 es igual a", r: 2}, {p: "4 dividido entre 2 es igual a", r: 2},
-                {p: "6 dividido entre 2 es igual a", r: 3}, {p: "8 dividido entre 2 es igual a", r: 4},
-                {p: "10 dividido entre 2 es igual a", r: 5}, {p: "3 dividido entre 1 es igual a", r: 3},
-                {p: "6 dividido entre 3 es igual a", r: 2}, {p: "9 dividido entre 3 es igual a", r: 3},
-                {p: "4 dividido entre 1 es igual a", r: 4}, {p: "8 dividido entre 4 es igual a", r: 2},
-                {p: "5 dividido entre 1 es igual a", r: 5}, {p: "10 dividido entre 5 es igual a", r: 2},
-                {p: "12 dividido entre 3 es igual a", r: 4}, {p: "12 dividido entre 4 es igual a", r: 3},
-                {p: "15 dividido entre 5 es igual a", r: 3}, {p: "20 dividido entre 5 es igual a", r: 4},
-                {p: "0 dividido entre cualquier número es igual a", r: 0}, {p: "1 dividido entre 1 es igual a", r: 1},
-                {p: "12 dividido entre 2 es igual a", r: 6}, {p: "15 dividido entre 3 es igual a", r: 5},
-                {p: "16 dividido entre 4 es igual a", r: 4}, {p: "25 dividido entre 5 es igual a", r: 5},
-                {p: "14 dividido entre 2 es igual a", r: 7}, {p: "18 dividido entre 3 es igual a", r: 6},
-                {p: "20 dividido entre 4 es igual a", r: 5}, {p: "7 dividido entre 1 es igual a", r: 7},
-                {p: "8 dividido entre 1 es igual a", r: 8}, {p: "9 dividido entre 1 es igual a", r: 9},
-                {p: "10 dividido entre 1 es igual a", r: 10}, {p: "6 dividido entre 1 es igual a", r: 6}
+            medidas: [
+                {p: "¿Un elefante es más... que una hormiga?", ops: ["grande", "pequeño", "igual"], r: "grande"},
+                {p: "¿Una hormiga es más... que un elefante?", ops: ["pequeña", "grande", "igual"], r: "pequeña"},
+                {p: "¿Una jirafa es más... que un niño?", ops: ["alta", "baja", "igual"], r: "alta"},
+                {p: "¿Un bebé es más... que un adulto?", ops: ["bajo", "alto", "igual"], r: "bajo"},
+                {p: "¿El sol está muy... y nosotros aquí?", ops: ["lejos", "cerca", "arriba igual"], r: "lejos"},
+                {p: "¿Tu zapato está... de ti?", ops: ["cerca", "lejos", "arriba"], r: "cerca"},
+                {p: "¿Un coche va más... que una persona caminando?", ops: ["rápido", "lento", "igual"], r: "rápido"},
+                {p: "¿Una tortuga va más... que un conejo?", ops: ["lenta", "rápida", "igual"], r: "lenta"},
+                {p: "¿Un día es más... que una hora?", ops: ["largo", "corto", "igual"], r: "largo"},
+                {p: "¿Una manzana pesa... que una pluma?", ops: ["más", "menos", "igual"], r: "más"},
+                {p: "¿La pluma es más... que la manzana?", ops: ["ligera", "pesada", "igual"], r: "ligera"},
+                {p: "¿El río es... que un charco?", ops: ["más largo y grande", "más pequeño", "igual"], r: "más largo y grande"},
+                {p: "¿Arriba es lo contrario de...?", ops: ["abajo", "encima", "cerca"], r: "abajo"},
+                {p: "¿Lleno es lo contrario de...?", ops: ["vacío", "medio", "lleno otra vez"], r: "vacío"},
+                {p: "¿Mucho es lo contrario de...?", ops: ["poco", "nada", "demasiado"], r: "poco"},
+                {p: "¿Primero, después y...?", ops: ["al final", "antes", "ahora"], r: "al final"},
+                {p: "¿Hoy, mañana y...?", ops: ["ayer", "pasado mañana", "nunca"], r: "ayer"},
+                {p: "¿Comparamos para ver qué es...?", ops: ["distinto o igual", "más bonito", "más feo"], r: "distinto o igual"},
+                {p: "¿Podemos ordenar cosas del más chico al más...?", ops: ["grande", "chico", "mediano"], r: "grande"},
+                {p: "¿El agua fría es lo contrario de...?", ops: ["caliente", "tibia", "helada"], r: "caliente"},
+                {p: "¿El día es claro y la noche es...?", ops: ["oscura", "clara", "igual"], r: "oscura"},
+                {p: "¿Un vaso alto tiene más... que uno bajo?", ops: ["espacio", "color", "peso"], r: "espacio"},
+                {p: "¿Usamos medidas para saber cuánto...?", ops: ["hay", "cuesta", "pesa"], r: "hay"},
+                {p: "¿Podemos usar las manos para...?", ops: ["comparar tamaños", "comer", "correr"], r: "comparar tamaños"},
+                {p: "¿Las cosas tienen su tamaño y...?", ops: ["peso", "color fijo", "forma fija"], r: "peso"},
+                {p: "¿Es importante saber comparar?", ops: ["sí", "no", "a veces"], r: "sí"},
+                {p: "¿Tú eres más grande que cuando eras...?", ops: ["bebé", "grande", "igual"], r: "bebé"},
+                {p: "¿Crecimos y cambiamos de...?", ops: ["tamaño", "nombre", "casa"], r: "tamaño"},
+                {p: "¿Comparar y medir nos ayuda a entender...?", ops: ["mejor", "peor", "nada"], r: "mejor"},
+                {p: "¡Las matemáticas están en todo lo que...!", ops: ["vemos y tocamos", "solo libros", "solo escuela"], r: "vemos y tocamos"}
             ]
         };
 
-        // Elementos del DOM
-        const btnSuma = document.getElementById('btnSuma');
-        const btnResta = document.getElementById('btnResta');
-        const btnMultiplicacion = document.getElementById('btnMultiplicacion');
-        const btnDivision = document.getElementById('btnDivision');
-        const menuPrincipal = document.getElementById('menuPrincipal');
-        const areaEjercicios = document.getElementById('areaEjercicios');
-        const tituloOperacion = document.getElementById('tituloOperacion');
-        const listaEjercicios = document.getElementById('listaEjercicios');
-        const btnLeerTodo = document.getElementById('btnLeerTodo');
+        let actActual = [];
+        let indice = 0;
+
+        const btnNumeros = document.getElementById('btnNumeros');
+        const btnOperaciones = document.getElementById('btnOperaciones');
+        const btnFormas = document.getElementById('btnFormas');
+        const btnMedidas = document.getElementById('btnMedidas');
+        const menu = document.getElementById('menu');
+        const areaAct = document.getElementById('areaAct');
+        const tituloAct = document.getElementById('tituloAct');
+        const progreso = document.getElementById('progreso');
+        const pregunta = document.getElementById('pregunta');
+        const opciones = document.getElementById('opciones');
+        const mensaje = document.getElementById('mensaje');
+        const btnLeer = document.getElementById('btnLeer');
+        const btnSig = document.getElementById('btnSig');
         const btnVolver = document.getElementById('btnVolver');
 
-        // Función para mostrar ejercicios
-        function mostrarEjercicios(tipo, titulo) {
-            menuPrincipal.style.display = 'none';
-            areaEjercicios.style.display = 'block';
-            tituloOperacion.textContent = titulo;
-            listaEjercicios.innerHTML = '';
-
-            ejercicios[tipo].forEach((ej, indice) => {
-                const div = document.createElement('div');
-                div.className = 'ejercicio';
-                div.innerHTML = `${indice+1}. ${ej.p} <strong>${ej.r}</strong>`;
-                listaEjercicios.appendChild(div);
+        function cargarEjercicio() {
+            const ej = actActual[indice];
+            progreso.textContent = `Ejercicio ${indice+1} de ${actActual.length}`;
+            pregunta.textContent = ej.p;
+            opciones.innerHTML = '';
+            mensaje.textContent = '';
+            btnSig.style.display = 'none';
+            ej.ops.forEach(op => {
+                const b = document.createElement('button');
+                b.className = 'opcion';
+                b.textContent = op;
+                b.onclick = () => verificar(op, ej.r);
+                opciones.appendChild(b);
             });
         }
 
-        // Función para leer en voz alta
-        function leerEjercicios(tipo) {
-            window.speechSynthesis.cancel();
-            let textoCompleto = `Ejercicios de ${tipo}. `;
-            ejercicios[tipo].forEach(ej => {
-                textoCompleto += `${ej.p} ${ej.r}. `;
-            });
-            const voz = new SpeechSynthesisUtterance(textoCompleto);
-            voz.lang = 'es-ES';
-            voz.rate = 0.9; // Velocidad adecuada para niños
-            window.speechSynthesis.speak(voz);
+        function iniciar(tipo, titulo) {
+            actActual = actividades[tipo];
+            indice = 0;
+            menu.style.display = 'none';
+            areaAct.style.display = 'block';
+            tituloAct.textContent = titulo;
+            cargarEjercicio();
         }
 
-        // Eventos de botones
-        btnSuma.addEventListener('click', () => mostrarEjercicios('suma', '➕ Ejercicios de Suma'));
-        btnResta.addEventListener('click', () => mostrarEjercicios('resta', '➖ Ejercicios de Resta'));
-        btnMultiplicacion.addEventListener('click', () => mostrarEjercicios('multiplicacion', '✖️ Ejercicios de Multiplicación'));
-        btnDivision.addEventListener('click', () => mostrarEjercicios('division', '➗ Ejercicios de División'));
-
-        btnLeerTodo.addEventListener('click', () => {
-            if(tituloOperacion.textContent.includes('Suma')) leerEjercicios('suma');
-            if(tituloOperacion.textContent.includes('Resta')) leerEjercicios('resta');
-            if(tituloOperacion.textContent.includes('Multiplicación')) leerEjercicios('multiplicacion');
-            if(tituloOperacion.textContent.includes('División')) leerEjercicios('division');
-        });
-
-        btnVolver.addEventListener('click', () => {
-            areaEjercicios.style.display = 'none';
-            menuPrincipal.style.display = 'flex';
+        function voz(texto) {
             window.speechSynthesis.cancel();
-        });
+            const v = new SpeechSynthesisUtterance(texto);
+            v.lang = 'es-ES'; v.rate = 0.85;
+            window.speechSynthesis.speak(v);
+        }
+
+        function verificar(elegida, correcta) {
+            opciones.innerHTML = '';
+            if(elegida === correcta){
+                mensaje.textContent = "✅ ¡Muy bien!";
+                mensaje.className = "mensaje correcto";
+                voz("¡Muy bien! La respuesta es " + correcta);
+            } else {
+                mensaje.textContent = `❌ No. La respuesta es: ${correcta}`;
+                mensaje.className = "mensaje incorrecto";
+                voz("No es correcto. La respuesta es " + correcta);
+            }
+            btnSig.style.display = 'inline-block';
+        }
+
+        btnSig.onclick = () => {
+            indice++;
+            if(indice < actActual.length) cargarEjercicio();
+            else {
+                pregunta.textContent = "🎉 ¡Terminaste las matemáticas! 🎉";
+                opciones.innerHTML = '';
+                btnSig.style.display = 'none';
+                voz("¡Felicidades! Eres muy bueno con los números y las formas.");
+            }
+        };
+
+        btnLeer.onclick = () => voz(pregunta.textContent);
+        btnVolver.onclick = () => { areaAct.style.display = 'none'; menu.style.display = 'flex'; window.speechSynthesis.cancel(); };
+
+        btnNumeros.onclick = () => iniciar('numeros', '🔢 Números hasta el 10');
+        btnOperaciones.onclick = () => iniciar('operaciones', '➕ Sumar y Restar');
+        btnFormas.onclick = () => iniciar('formas', '🔷 Formas y Figuras');
+        btnMedidas.onclick = () => iniciar('medidas', '⚖️ Comparar y Medir');
     </script>
 </body>
 </html>
