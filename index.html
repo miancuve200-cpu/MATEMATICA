@@ -5,35 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Ejercicios de Matemáticas</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial; }
-        body { padding: 15px; text-align: center; background: #ffffff; }
-        h1 { font-size: 1.5rem; margin-bottom: 20px; color: #1f2937; }
-        h2 { font-size: 1.3rem; margin-bottom: 15px; color: #374151; }
-        .progreso { font-size: 1rem; color: #4b5563; margin-bottom: 10px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { padding: 20px; text-align: center; background: #ffffff; }
+        h1 { font-size: 1.8rem; margin-bottom: 30px; color: #000000; }
+        h2 { font-size: 1.6rem; margin-bottom: 20px; color: #000000; font-weight: bold; }
 
         /* MENÚ PRINCIPAL */
         #menu { display: block; }
-        .btnOperacion { display: block; width: 90%; max-width: 400px; margin: 10px auto; padding: 15px; font-size: 1.3rem; border: none; border-radius: 12px; cursor: pointer; color: white; font-weight: bold; transition: transform 0.15s; }
+        .btnOperacion { display: block; width: 90%; max-width: 450px; margin: 12px auto; padding: 18px; font-size: 1.4rem; border: none; border-radius: 12px; cursor: pointer; color: white; font-weight: bold; transition: transform 0.15s; }
         .btnOperacion:hover { transform: scale(1.03); }
         #btnSuma { background: #10b981; }
         #btnResta { background: #3b82f6; }
         #btnMulti { background: #f59e0b; }
         #btnDivi { background: #ef4444; }
 
-        /* ZONA DE EJERCICIOS */
+        /* ZONA DE EJERCICIOS - IGUAL A TU IMAGEN */
         #ejercicios { display: none; }
-        #volver { background: #6b7280; color: white; border: none; padding: 10px 20px; border-radius: 8px; margin-bottom: 15px; cursor: pointer; font-size: 1rem; }
-        #activarSonido { background: #dc2626; color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-size: 1.1rem; margin-bottom: 10px; cursor: pointer; }
-        #btnLeer { background: #8b5cf6; color: white; border: none; padding: 10px; border-radius: 8px; display: none; margin-bottom: 10px; cursor: pointer; }
-        .operacion { font-size: 2.2rem; font-weight: bold; margin: 20px 0; color: #1e40af; }
-        .opcion { display: inline-block; width: 45%; padding: 14px; margin: 6px 2%; font-size: 1.3rem; border: 2px solid #94a3b8; border-radius: 10px; cursor: pointer; background: white; font-weight: bold; transition: all 0.15s; }
+        #volver { background: #6b7280; color: white; border: none; padding: 10px 22px; border-radius: 8px; margin-bottom: 25px; cursor: pointer; font-size: 1.1rem; }
+        #activarSonido { background: #dc2626; color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; font-size: 1.2rem; margin-bottom: 25px; cursor: pointer; font-weight: normal; }
+        #btnLeer { background: #8b5cf6; color: white; border: none; padding: 10px 20px; border-radius: 8px; display: none; margin-bottom: 20px; cursor: pointer; font-size: 1rem; }
+        .operacion { font-size: 2.8rem; font-weight: bold; margin: 25px 0; color: #1e40af; }
+        .opcion { display: inline-block; width: 46%; padding: 18px; margin: 8px 1%; font-size: 1.5rem; border: 2px solid #94a3b8; border-radius: 10px; cursor: pointer; background: white; font-weight: normal; transition: all 0.15s; }
         .opcion:hover { background: #f9fafb; }
-        .correcta { border-color: #16a34a; background: #dcfce7; color: #166534; }
+        .correcta { border-color: #16a34a; background: #dcfce7; color: #166534; font-weight: bold; }
         .incorrecta { border-color: #dc2626; background: #fee2e2; color: #b91c1c; }
-        #mensaje { margin: 15px 0; font-size: 1.2rem; font-weight: bold; color: #166534; min-height: 35px; }
-        #siguiente { background: #2563eb; color: white; border: none; padding: 12px; border-radius: 8px; font-size: 1.1rem; width: 100%; margin-top: 10px; cursor: pointer; display: none; transition: transform 0.15s; }
-        #siguiente:hover { transform: scale(1.02); }
-        #finalizado { display: none; font-size: 1.4rem; font-weight: bold; color: #16a34a; margin-top: 20px; padding: 15px; border-radius: 10px; background: #f0fdf4; }
+        #mensaje { margin: 20px 0; font-size: 1.3rem; font-weight: bold; color: #166534; min-height: 40px; }
+        #siguiente { background: #2563eb; color: white; border: none; padding: 14px; border-radius: 8px; font-size: 1.2rem; width: 100%; margin-top: 10px; cursor: pointer; display: none; font-weight: bold; }
+        #finalizado { display: none; font-size: 1.5rem; font-weight: bold; color: #16a34a; margin-top: 30px; padding: 20px; border-radius: 10px; background: #f0fdf4; }
+        .progreso { font-size: 1.1rem; color: #4b5563; margin-bottom: 15px; }
     </style>
 </head>
 <body>
@@ -67,7 +66,7 @@
     </div>
 
     <script>
-        // BANCO DE EJERCICIOS SEPARADOS POR OPERACIÓN
+        // EJERCICIOS SEPARADOS POR OPERACIÓN
         const banco = {
             suma: [
                 { voz: "dos más tres", ver: "2 + 3 = ?", ok: 5, ops: [4,5,6,7] },
