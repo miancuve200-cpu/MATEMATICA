@@ -9,6 +9,7 @@
         body { padding: 15px; text-align: center; background: #ffffff; }
         h1 { font-size: 1.5rem; margin-bottom: 20px; color: #1f2937; }
         h2 { font-size: 1.3rem; margin-bottom: 15px; color: #374151; }
+        .progreso { font-size: 1rem; color: #4b5563; margin-bottom: 10px; }
 
         /* MENÚ PRINCIPAL */
         #menu { display: block; }
@@ -32,6 +33,7 @@
         #mensaje { margin: 15px 0; font-size: 1.2rem; font-weight: bold; color: #166534; min-height: 35px; }
         #siguiente { background: #2563eb; color: white; border: none; padding: 12px; border-radius: 8px; font-size: 1.1rem; width: 100%; margin-top: 10px; cursor: pointer; display: none; transition: transform 0.15s; }
         #siguiente:hover { transform: scale(1.02); }
+        #finalizado { display: none; font-size: 1.4rem; font-weight: bold; color: #16a34a; margin-top: 20px; padding: 15px; border-radius: 10px; background: #f0fdf4; }
     </style>
 </head>
 <body>
@@ -49,6 +51,7 @@
     <div id="ejercicios">
         <button id="volver" onclick="volverMenu()">⬅️ Volver al menú</button>
         <h2 id="tituloOperacion"></h2>
+        <div class="progreso" id="progreso"></div>
         <button id="activarSonido" onclick="activarVoz()">🔊 Toca aquí para activar el sonido</button>
         <button id="btnLeer" onclick="leerEjercicio()">🔊 Escuchar ejercicio</button>
         <div class="operacion" id="textoEjercicio"></div>
@@ -60,10 +63,11 @@
 
         <div id="mensaje"></div>
         <button id="siguiente" onclick="siguienteEjercicio()">➡️ Siguiente ejercicio</button>
+        <div id="finalizado"></div>
     </div>
 
     <script>
-        // BANCO DE EJERCICIOS
+        // BANCO DE EJERCICIOS SEPARADOS POR OPERACIÓN
         const banco = {
             suma: [
                 { voz: "dos más tres", ver: "2 + 3 = ?", ok: 5, ops: [4,5,6,7] },
@@ -117,6 +121,7 @@
 
         let operacionActual = "";
         let indice = 0;
+        let totalEjercicios = 0;
         let sonidoActivo = false;
 
         // FUNCIÓN DE VOZ
@@ -133,23 +138,28 @@
             sonidoActivo = true;
             document.getElementById('activarSonido').style.display = 'none';
             document.getElementById('btnLeer').style.display = 'inline-block';
-            hablar("Sonido activado, puedes empezar.");
+            hablar("Sonido activado, empieza a practicar.");
         }
 
         function leerEjercicio() {
             if (sonidoActivo) hablar(banco[operacionActual][indice].voz);
         }
 
-        // CAMBIAR SECCIÓN
+        // CARGAR OPERACIÓN SEPARADA
         function cargarOperacion(tipo) {
             operacionActual = tipo;
             indice = 0;
+            totalEjercicios = banco[tipo].length;
             sonidoActivo = false;
+            
             document.getElementById('menu').style.display = 'none';
             document.getElementById('ejercicios').style.display = 'block';
             document.getElementById('tituloOperacion').textContent = tipo.toUpperCase();
             document.getElementById('activarSonido').style.display = 'block';
             document.getElementById('btnLeer').style.display = 'none';
+            document.getElementById('finalizado').style.display = 'none';
+            document.getElementById('siguiente').style.display = 'none';
+            
             cargarEjercicio();
         }
 
@@ -162,15 +172,19 @@
         // CARGAR UN EJERCICIO
         function cargarEjercicio() {
             const ej = banco[operacionActual][indice];
+            document.getElementById('progreso').textContent = `Ejercicio ${indice + 1} de ${totalEjercicios}`;
             document.getElementById('textoEjercicio').textContent = ej.ver;
+            
             const botones = document.querySelectorAll('.opcion');
             botones.forEach((b, i) => {
                 b.textContent = ej.ops[i];
                 b.className = 'opcion';
                 b.disabled = false;
             });
+            
             document.getElementById('mensaje').textContent = '';
             document.getElementById('siguiente').style.display = 'none';
+            
             if (sonidoActivo) hablar(ej.voz);
         }
 
@@ -194,14 +208,26 @@
                 document.getElementById('mensaje').textContent = texto;
                 hablar(texto);
             }
+            
             document.getElementById('siguiente').style.display = 'block';
             window.scrollTo(0, document.body.scrollHeight);
         }
 
-        // PASAR AL SIGUIENTE
+        // SIGUIENTE EJERCICIO O FINALIZAR
         function siguienteEjercicio() {
-            indice = (indice + 1) % banco[operacionActual].length;
-            cargarEjercicio();
+            indice++;
+            if (indice < totalEjercicios) {
+                cargarEjercicio();
+            } else {
+                // TERMINÓ TODOS LOS EJERCICIOS DE ESTA OPERACIÓN
+                document.getElementById('textoEjercicio').style.display = 'none';
+                document.querySelectorAll('.opcion').forEach(b => b.style.display = 'none');
+                document.getElementById('mensaje').textContent = '';
+                document.getElementById('siguiente').style.display = 'none';
+                document.getElementById('finalizado').style.display = 'block';
+                document.getElementById('finalizado').innerHTML = `🎉 ¡FELICIDADES! Terminaste todas las ${operacionActual.toUpperCase()}.<br>Elige otra operación o vuelve cuando quieras.`;
+                hablar(`¡Felicidades! Terminaste todas las ${operacionActual}.`);
+            }
         }
     </script>
 </body>
